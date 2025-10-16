@@ -1,0 +1,14 @@
+flutter_app: 
+  command: brainrot-banking
+  arch: x64
+  parent: /usr/local/lib
+  nonInteractive: false
+
+control:
+  Package: brainrot-banking
+  Version: 1.0.0
+  Architecture: amd64
+  Priority: optional
+  Depends: libglib2.0-dev , libgtk-3-0t64 , libjpeg-turbo8
+  Maintainer: Aarav Gupta
+  Description: Skibidi banking app

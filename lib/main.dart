@@ -15,6 +15,23 @@ class MainApp extends StatelessWidget {
       GoRoute(path: '/', builder: (context, state) => const LoginPage()),
       GoRoute(
         path: '/account',
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: const AccountPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: animation.drive(
+                      Tween(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      ).chain(CurveTween(curve: Curves.easeOut)),
+                    ),
+                    child: child,
+                  );
+                },
+          );
+        },
         builder: (context, state) => const AccountPage(),
       ),
     ],
