@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     width: 400,
                     height: 50,
-                    child: TextField(controller: password),
+                    child: TextField(controller: password, obscureText: true),
                   ),
                   SizedBox(height: 25),
                   ElevatedButton(

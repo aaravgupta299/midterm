@@ -10,7 +10,6 @@ void main() {
 class MainApp extends StatelessWidget {
   MainApp({super.key});
 
-  // 🧭 Step 3: Set up GoRouter
   final GoRouter _router = GoRouter(
     routes: [
       GoRoute(path: '/', builder: (context, state) => const LoginPage()),
