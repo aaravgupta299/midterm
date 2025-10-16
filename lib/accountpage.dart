@@ -32,7 +32,7 @@ class _AccountPageState extends State<AccountPage> {
                   Text('Debt: $debt'),
                   SizedBox(height: 50),
                   Text('Deposit Amount'),
-                  Container(
+                  SizedBox(
                     width: 400,
                     height: 50,
                     child: TextField(
@@ -56,7 +56,9 @@ class _AccountPageState extends State<AccountPage> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    content: Text('Info: Debt has been paid.'),
+                                    content: Text(
+                                      'you arent a broke boy no more (debt has been paid)',
+                                    ),
                                   );
                                 },
                               );
@@ -68,7 +70,7 @@ class _AccountPageState extends State<AccountPage> {
                                 builder: (context) {
                                   return AlertDialog(
                                     content: Text(
-                                      'Info: Debt has been partially paid.',
+                                      'broke boy your debt was only partially paid 💔',
                                     ),
                                   );
                                 },
@@ -81,7 +83,9 @@ class _AccountPageState extends State<AccountPage> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text('Deposit sucessful.'),
+                                content: Text(
+                                  'deposit complete (intense phonk music)',
+                                ),
                               );
                             },
                           );
@@ -90,9 +94,7 @@ class _AccountPageState extends State<AccountPage> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                content: Text(
-                                  'Please enter a valid deposit amount.',
-                                ),
+                                content: Text('ts was NOT a deposit amount 💀'),
                               );
                             },
                           );
@@ -103,7 +105,7 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                   SizedBox(height: 50),
                   Text('Withdraw Amount'),
-                  Container(
+                  SizedBox(
                     width: 400,
                     height: 50,
                     child: TextField(
@@ -124,9 +126,7 @@ class _AccountPageState extends State<AccountPage> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              content: Text(
-                                'Please enter a valid withdrawal amount.',
-                              ),
+                              content: Text('ts was NOT a wthdrawal amount 💀'),
                             );
                           },
                         );
@@ -147,7 +147,7 @@ class _AccountPageState extends State<AccountPage> {
                             builder: (context) {
                               return AlertDialog(
                                 content: Text(
-                                  'Withdrawal successful with loan support.',
+                                  'broke boy needed loan support 💔',
                                 ),
                               );
                             },

@@ -23,15 +23,29 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.all(100),
               child: Column(
                 children: [
-                  Text('Username'),
-                  Container(
+                  Text(
+                    'welcome to brainrot bank yunc 🥀',
+                    style: TextStyle(
+                      fontSize: 24.0, // Set the desired font size
+                      fontWeight: FontWeight.bold, // Optional: make text bold
+                      color: const Color.fromARGB(
+                        255,
+                        0,
+                        0,
+                        0,
+                      ), // Optional: set text color
+                    ),
+                  ),
+                  SizedBox(width: 400, height: 50),
+                  Text('Username '),
+                  SizedBox(
                     width: 400,
                     height: 50,
                     child: TextField(controller: username),
                   ),
                   SizedBox(height: 25),
                   Text('Password'),
-                  Container(
+                  SizedBox(
                     width: 400,
                     height: 50,
                     child: TextField(controller: password, obscureText: true),
@@ -41,6 +55,17 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (username.text == 'aarav' && password.text == '67') {
                         context.go('/account');
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(
+                                'unc doesnt even remember his password 🥀 ',
+                              ),
+                            );
+                          },
+                        );
                       }
                     },
                     child: Text('Sign In'),
