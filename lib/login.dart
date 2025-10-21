@@ -14,15 +14,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   void signIn() {
-    if (username.text == 'aarav' && password.text == '67') {
+    if (username.text == 'Aarav' && password.text == 'Gupta') {
       context.go('/account');
     } else {
       showDialog(
         context: context,
         builder: (context) {
-          return const AlertDialog(
-            content: Text('unc doesnt even remember his password 🥀 '),
-          );
+          return const AlertDialog(content: Text('Wrong user or password!'));
         },
       );
     }
@@ -78,7 +76,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   child: Column(
                     children: [
                       const Text(
-                        'welcome to brainrot bank yunc 🥀',
+                        'Bank of Aarav',
                         style: TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,

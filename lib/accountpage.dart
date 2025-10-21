@@ -1,4 +1,6 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -9,11 +11,14 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage>
     with TickerProviderStateMixin {
-  int balance = 0;
-  int debt = 0;
-  int? deposit = 0 ?? 0;
-  int? withdraw = 0 ?? 0;
+  double balance = 0;
+  double debt = 0;
+  double? deposit = 0 ?? 0;
+  double? withdraw = 0 ?? 0;
   bool status = true;
+  String get formattedBalance => NumberFormat('#,##0.00').format(balance);
+  String get formattedDebt => NumberFormat('#,##0.00').format(debt);
+
   TextEditingController loanController = TextEditingController();
   TextEditingController depositController = TextEditingController();
   TextEditingController withdrawController = TextEditingController();
@@ -23,33 +28,38 @@ class _AccountPageState extends State<AccountPage>
   late final Animation<Color?> _colorAnimation2;
 
   void withdrawAmount() {
-    int? withdrawAmount = int.tryParse(withdrawController.text);
-
-    if (withdrawAmount == null || withdrawAmount <= 0) {
+    withdraw = double.tryParse(withdrawController.text);
+    if (hasTwoDecimalPlaces(withdraw!) == true) {
+      if (withdraw == null || withdraw! <= 0) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(content: Text('Invalid withdrawal amount.'));
+          },
+        );
+        return;
+      }
+    } else {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            content: Text('ts was NOT a withdrawal amount 💀'),
-          );
+          return AlertDialog(content: Text('Invalid withdrawal amount.'));
         },
       );
       return;
     }
 
     setState(() {
-      if (withdrawAmount <= balance) {
-        balance -= withdrawAmount;
+      if (withdraw! <= balance) {
+        balance -= withdraw!;
       } else {
-        int shortage = withdrawAmount - balance;
+        double shortage = withdraw! - balance;
         debt += shortage;
         balance = 0;
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              content: Text('broke boy needed loan support 💔'),
-            );
+            return AlertDialog(content: Text('Notice: Loan support taken'));
           },
         );
       }
@@ -58,53 +68,63 @@ class _AccountPageState extends State<AccountPage>
 
   void depositAmount() {
     setState(() {
-      status = true;
-      deposit = int.tryParse(depositController.text);
+      deposit = double.tryParse(depositController.text);
       if (deposit != null && deposit! > 0) {
-        if (debt > 0) {
-          if (deposit! >= debt) {
-            deposit = deposit! - debt;
-            debt = 0;
-            balance += deposit!;
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(
-                    'you arent a broke boy no more (debt has been paid)',
-                  ),
-                );
-              },
-            );
-            status = false;
+        if (hasTwoDecimalPlaces(deposit!) == true) {
+          if (debt > 0) {
+            if (deposit! >= debt) {
+              deposit = deposit! - debt;
+              debt = 0;
+              balance += deposit!;
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text('Notice: Debt has been paid.'),
+                  );
+                },
+              );
+              status = false;
+            } else {
+              debt -= deposit!;
+              deposit = 0;
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text('Notice: Debt partially paid.'),
+                  );
+                },
+              );
+              status = false;
+            }
           } else {
-            debt -= deposit!;
-            deposit = 0;
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(
-                    'broke boy your debt was only partially paid 💔',
-                  ),
-                );
-              },
-            );
-            status = false;
+            balance += deposit!;
           }
         } else {
-          balance += deposit!;
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(content: Text('Invalid deposit amount.'));
+            },
+          );
         }
       } else {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(content: Text('ts was NOT a deposit amount 💀'));
+            return AlertDialog(content: Text('Invalid deposit amount.'));
           },
         );
         status = false;
       }
     });
+  }
+
+  bool hasTwoDecimalPlaces(double number) {
+    String fixedString = number.toStringAsFixed(2);
+    double roundedNumber = double.parse(fixedString);
+    return number == roundedNumber;
   }
 
   @override
@@ -157,7 +177,7 @@ class _AccountPageState extends State<AccountPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Balance: $balance',
+                        'Balance: \$$formattedBalance',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -165,7 +185,8 @@ class _AccountPageState extends State<AccountPage>
                       ),
 
                       Text(
-                        'Debt: $debt',
+                        'Debt: \$$formattedDebt',
+
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
